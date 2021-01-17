@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
@@ -36,7 +37,7 @@ public class CoreUtil {
         return target == null || target.length() == 0;
     }
 
-    public static boolean isNullOrEmpty(Map<Object, Object> target) {
+    public static boolean isNullOrEmpty(Map<?, ?> target) {
         return target == null || target.isEmpty();
     }
 
@@ -122,5 +123,47 @@ public class CoreUtil {
         for (int i = 0; i < chars.length; i++) {
             chars[i] = possibilities[RANDOM.nextInt(possibilities.length)];
         }
+    }
+
+    /**
+     * Checks if the collection is null or empty.
+     *
+     * @param collection Collection being checked for nullness or emptiness.
+     * @return True if the collection is null or empty, false otherwise.
+     */
+    public static boolean isNullOrEmpty(Collection<?> collection) {
+        return collection == null || collection.isEmpty();
+    }
+
+    /**
+     * Checks if the array is null or empty.
+     *
+     * @param array Array being checked for nullness or emptiness.
+     * @return True if the array is null or empty, false otherwise.
+     */
+    public static boolean isNullOrEmpty(Object[] array) {
+        return array == null || array.length == 0;
+    }
+
+    /**
+     * Returns the first instance of the given class from an array of Objects.
+     *
+     * @param args  Array of objects to search through to find the first instance of the given `clazz` type.
+     * @param clazz The type trying to be found.
+     * @param <T>   Generic type
+     * @return The first object of the desired type, otherwise null.
+     */
+    public static <T> T findFirstOfType(Object[] args, Class<T> clazz) {
+        if (isNullOrEmpty(args)) {
+            return null;
+        }
+
+        for (Object arg : args) {
+            if (clazz.isInstance(arg)) {
+                return clazz.cast(arg);
+            }
+        }
+
+        return null;
     }
 }

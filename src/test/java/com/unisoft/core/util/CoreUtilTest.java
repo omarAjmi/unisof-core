@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -75,6 +76,48 @@ class CoreUtilTest {
         }
     }
 
+    @Test
+    public void findFirstOfTypeEmptyArgs() {
+        assertNull(CoreUtil.findFirstOfType(null, Integer.class));
+    }
+
+    @Test
+    public void findFirstOfTypeWithOneOfType() {
+        int expected = 1;
+        Object[] args = {"string", expected};
+        Integer actual = CoreUtil.findFirstOfType(args, Integer.class);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void findFirstOfTypeWithMultipleOfType() {
+        int expected = 1;
+        Object[] args = {"string", expected, 10};
+        Integer actual = CoreUtil.findFirstOfType(args, Integer.class);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void findFirstOfTypeWithNoneOfType() {
+        Object[] args = {"string", "anotherString"};
+        assertNull(CoreUtil.findFirstOfType(args, Integer.class));
+    }
+
+    @Test
+    void isNullOrEmptyCollection() {
+        assertTrue(CoreUtil.isNullOrEmpty(Collections.EMPTY_LIST));
+        assertTrue(CoreUtil.isNullOrEmpty(Collections.EMPTY_MAP));
+        assertTrue(CoreUtil.isNullOrEmpty(Collections.EMPTY_SET));
+        assertFalse(CoreUtil.isNullOrEmpty(Collections.singletonList(0)));
+        assertFalse(CoreUtil.isNullOrEmpty(Collections.singleton(0)));
+        assertFalse(CoreUtil.isNullOrEmpty(Collections.singletonMap(0, 0)));
+    }
+
+    @Test
+    void isNullOrEmptyArray() {
+        assertTrue(CoreUtil.isNullOrEmpty(Collections.EMPTY_LIST.toArray()));
+        assertFalse(CoreUtil.isNullOrEmpty(Collections.singletonList(0).toArray()));
+    }
 
     @ParameterizedTest
     @MethodSource("bomAwareToStringSupplier")
