@@ -14,7 +14,6 @@
 
         <junit.version>5.5.2</junit.version>
         <slf4j.version>1.6.1</slf4j.version>
-        <projectreactor.version>3.3.5.RELEASE</projectreactor.version>
         <guava.version>30.0-jre</guava.version>
     </properties>
 
@@ -28,11 +27,6 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-core</artifactId>
-            <version>${projectreactor.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
